@@ -32,7 +32,6 @@ class TicTacToe
   def move(location, char)
     return(@board[location] = char)
   end
-  
   def position_taken?(index)
     if (@board[index] == "X") || (@board[index] == "O") 
       return(true) 
@@ -86,21 +85,58 @@ class TicTacToe
       turn
     end
   end
- 
-  def won? #
-    WIN_COMBINATIONS.each do |combination|                    ############################################  
-        if @board[combination[0]] == @board[combination[1]] &&## Need some guidance here I could not get 
-          @board[combination[1]] == @board[combination[2]] && ## this to work, not matter how hard I tried
-          position_taken?(combination[0]+1)                   ## even borrowed some soulutions off of the 
-          return combination.to_a                                  ## interwebs an they did not work either
-        end                                                   ## giving up on this right now. 'till further
-        if draw?                                              ## Notice.
-          return(false)
-        end
+  
+  def turn_count
+    positions_taken = 0
+    index = 0
+    9.times do 
+      if @board[index] == "X" || @board[index] == "O"
+        positions_taken += 1 
       end
-    return false
+      index += 1 
+    end
+    return(positions_taken)
+  end 
+  
+  def current_player
+    accum_X = 0
+    accum_O = 0 
+    @board.each_with_index do |char, index| 
+      if char == "X" then accum_X += 1 end
+      if char == "O" then accum_O += 1 end
+    end
+    if accum_X == accum_O then return("X") end
+    if accum_X > accum_O then return("O") end
   end
   
+  def turn
+    puts "Enter your turn 1-9:" 
+    a = gets.chomp
+    b = input_to_index(a)
+    if valid_move?(b) then c = current_player 
+      move(b, c) 
+      display_board
+    else
+      turn
+    end
+  end
+  def won?
+    WIN_COMBINATIONS.each do |win_combination|
+    win_index_1 = win_combination[0]
+    win_index_2 = win_combination[1]
+    win_index_3 = win_combination[2]
+    position_1 = @board[win_index_1] 
+    position_2 = @board[win_index_2]
+    position_3 = @board[win_index_3] 
+    if (position_1 == position_2) and (position_2 == position_3) and potition_taken(win_index_1)
+    binding.pry
+    return(true)
+    else
+    return(false)
+    end
+    end
+  end
+ 
   def full?
     count = 0
     @board.each do |position| 
@@ -116,11 +152,11 @@ class TicTacToe
     end
   end
   
-  def draw?
-    if full? == true 
-      return(true)
-    else
-      return(false)
+  def draw?(board)
+    if board.full? and !board.won? then return(true)
+    elseif 
+      board.won? ? false : true
+      return
     end
   end
  
@@ -130,11 +166,7 @@ class TicTacToe
   
   def winner?(board)
     if won?(board)
-      return board[won?(@board)[0]]
+      return board[won?(board)[0]]
     end
-  end
-  
-  def play()
-    
-  end  
+  end 
 end
