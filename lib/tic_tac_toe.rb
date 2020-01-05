@@ -87,14 +87,14 @@ class TicTacToe
     end
   end
  
-  def won?
-    WIN_COMBINATIONS.each do |combination|  
-        if @board[combination[0]] == @board[combination[1]] &&
-          @board[combination[1]] == @board[combination[2]] &&
-          position_taken?(combination[0]+1)
-          return combination
-        end
-        if draw?
+  def won? #
+    WIN_COMBINATIONS.each do |combination|                    ############################################  
+        if @board[combination[0]] == @board[combination[1]] &&## Need some guidance here I could not get 
+          @board[combination[1]] == @board[combination[2]] && ## this to work, not matter how hard I tried
+          position_taken?(combination[0]+1)                   ## even borrowed some soulutions off of the 
+          return combination.to_a                                  ## interwebs an they did not work either
+        end                                                   ## giving up on this right now. 'till further
+        if draw?                                              ## Notice.
           return(false)
         end
       end
